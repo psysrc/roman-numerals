@@ -6,8 +6,13 @@ pub fn roman_numerals(mut num: u32) -> String {
     let mut result = String::from("");
 
     if num >= 40 {
-        result.push_str("XL");
-        num -= 40;
+        if num >= 50 {
+            result.push_str("L");
+            num -= 50;
+        } else {
+            result.push_str("XL");
+            num -= 40;
+        }
     }
 
     while num >= 10 {
@@ -75,5 +80,14 @@ mod tests {
         assert_eq!(roman_numerals(41), "XLI");
         assert_eq!(roman_numerals(45), "XLV");
         assert_eq!(roman_numerals(49), "XLIX");
+    }
+
+    #[test]
+    fn test_50_51_54_57_59() {
+        assert_eq!(roman_numerals(50), "L");
+        assert_eq!(roman_numerals(51), "LI");
+        assert_eq!(roman_numerals(54), "LIV");
+        assert_eq!(roman_numerals(57), "LVII");
+        assert_eq!(roman_numerals(59), "LIX");
     }
 }
