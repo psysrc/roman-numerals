@@ -133,4 +133,24 @@ mod tests {
         assert_eq!(roman_numerals(190), "CXC");
         assert_eq!(roman_numerals(199), "CXCIX");
     }
+
+    #[test]
+    fn test_200s() {
+        assert_eq!(roman_numerals(200), "CC");
+        assert_eq!(roman_numerals(210), "CCX");
+        assert_eq!(roman_numerals(249), "CCXLIX");
+        assert_eq!(roman_numerals(250), "CCL");
+        assert_eq!(roman_numerals(270), "CCLXX");
+        assert_eq!(roman_numerals(290), "CCXC");
+        assert_eq!(roman_numerals(299), "CCXCIX");
+    }
+
+    #[test]
+    fn test_300s() {
+        assert_eq!(roman_numerals(300), "CCC");
+        assert_eq!(roman_numerals(323), "CCCXXIII");
+        assert_eq!(roman_numerals(350), "CCCL");
+        assert_eq!(roman_numerals(370), "CCCLXX");
+        assert_eq!(roman_numerals(399), "CCCXCIX");
+    }
 }
