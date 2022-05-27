@@ -5,6 +5,11 @@ pub fn roman_numerals(mut num: u32) -> String {
 
     let mut result = String::from("");
 
+    if num >= 400 {
+        result.push_str("CD");
+        num -= 400;
+    }
+
     while num >= 90 {
         if num >= 100 {
             result.push_str("C");
@@ -152,5 +157,14 @@ mod tests {
         assert_eq!(roman_numerals(350), "CCCL");
         assert_eq!(roman_numerals(370), "CCCLXX");
         assert_eq!(roman_numerals(399), "CCCXCIX");
+    }
+
+    #[test]
+    fn test_400s() {
+        assert_eq!(roman_numerals(400), "CD");
+        assert_eq!(roman_numerals(491), "CDXCI");
+        assert_eq!(roman_numerals(450), "CDL");
+        assert_eq!(roman_numerals(470), "CDLXX");
+        assert_eq!(roman_numerals(499), "CDXCIX");
     }
 }
