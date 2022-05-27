@@ -90,4 +90,14 @@ mod tests {
         assert_eq!(roman_numerals(57), "LVII");
         assert_eq!(roman_numerals(59), "LIX");
     }
+
+    #[test]
+    fn test_60_65_70_75_80_85() {
+        assert_eq!(roman_numerals(60), "LX");
+        assert_eq!(roman_numerals(65), "LXV");
+        assert_eq!(roman_numerals(70), "LXX");
+        assert_eq!(roman_numerals(75), "LXXV");
+        assert_eq!(roman_numerals(80), "LXXX");
+        assert_eq!(roman_numerals(85), "LXXXV");
+    }
 }
