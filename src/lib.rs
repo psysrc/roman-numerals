@@ -85,7 +85,7 @@ mod tests {
     }
 
     #[test]
-    fn test_40_41_45_49() {
+    fn test_40s() {
         assert_eq!(roman_numerals(40), "XL");
         assert_eq!(roman_numerals(41), "XLI");
         assert_eq!(roman_numerals(45), "XLV");
@@ -93,7 +93,7 @@ mod tests {
     }
 
     #[test]
-    fn test_50_51_54_57_59() {
+    fn test_50s() {
         assert_eq!(roman_numerals(50), "L");
         assert_eq!(roman_numerals(51), "LI");
         assert_eq!(roman_numerals(54), "LIV");
@@ -102,7 +102,7 @@ mod tests {
     }
 
     #[test]
-    fn test_60_65_70_75_80_85() {
+    fn test_60s_70s_80s() {
         assert_eq!(roman_numerals(60), "LX");
         assert_eq!(roman_numerals(65), "LXV");
         assert_eq!(roman_numerals(70), "LXX");
@@ -112,7 +112,7 @@ mod tests {
     }
 
     #[test]
-    fn test_90_91_95_98_99() {
+    fn test_90s() {
         assert_eq!(roman_numerals(90), "XC");
         assert_eq!(roman_numerals(91), "XCI");
         assert_eq!(roman_numerals(95), "XCV");
