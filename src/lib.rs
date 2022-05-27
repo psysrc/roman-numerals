@@ -1,6 +1,17 @@
-pub fn roman_numerals(num: u32) -> &'static str {
-    match num {
-        0 => "Nulla",
+pub fn roman_numerals(mut num: u32) -> String {
+    if num == 0 {
+        return String::from("Nulla");
+    }
+
+    let mut result = String::from("");
+
+    while num >= 10 {
+        result.push('X');
+        num -= 10;
+    }
+
+    result.push_str(match num {
+        0 => "",
         1 => "I",
         2 => "II",
         3 => "III",
@@ -10,30 +21,15 @@ pub fn roman_numerals(num: u32) -> &'static str {
         7 => "VII",
         8 => "VIII",
         9 => "IX",
-        10 => "X",
-        11 => "XI",
-        12 => "XII",
-        13 => "XIII",
-        14 => "XIV",
-        15 => "XV",
-        16 => "XVI",
-        17 => "XVII",
-        18 => "XVIII",
-        19 => "XIX",
-        20 => "XX",
-        _ => panic!("Cannot convert number to roman numerals"),
-    }
+        _ => panic!(),
+    });
+
+    result
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    #[should_panic]
-    fn test_unknown() {
-        roman_numerals(271041);
-    }
 
     #[test]
     fn test_0() {
