@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate lazy_static;
+
 pub fn roman_numerals(mut num: u32) -> String {
     if num == 0 {
         return String::from("Nulla");
@@ -50,6 +53,24 @@ pub fn roman_numerals(mut num: u32) -> String {
     });
 
     result
+}
+
+mod roman_numeral_data {
+    use std::collections::HashMap;
+
+    lazy_static! {
+        pub static ref CONVERSIONS: HashMap<u32, char> = {
+            let mut m = HashMap::new();
+            m.insert(1, 'I');
+            m.insert(5, 'V');
+            m.insert(10, 'X');
+            m.insert(50, 'L');
+            m.insert(100, 'C');
+            m.insert(500, 'D');
+            m.insert(1000, 'M');
+            m
+        };
+    }
 }
 
 #[cfg(test)]
