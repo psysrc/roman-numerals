@@ -24,6 +24,7 @@ pub fn roman_numerals(mut num: u32) -> String {
 
     let mut result = String::new();
 
+    result += &process_numeral(&mut num, ('M', 1000), ('C', 100));
     result += &process_numeral(&mut num, ('D', 500), ('C', 100));
     result += &process_numeral(&mut num, ('C', 100), ('X', 10));
     result += &process_numeral(&mut num, ('L', 50), ('X', 10));
@@ -157,5 +158,18 @@ mod tests {
         assert_eq!(roman_numerals(587), "DLXXXVII");
         assert_eq!(roman_numerals(565), "DLXV");
         assert_eq!(roman_numerals(520), "DXX");
+    }
+
+    #[test]
+    fn test_600s_700s_800s_900s() {
+        assert_eq!(roman_numerals(600), "DC");
+        assert_eq!(roman_numerals(651), "DCLI");
+        assert_eq!(roman_numerals(824), "DCCCXXIV");
+        assert_eq!(roman_numerals(958), "CMLVIII");
+        assert_eq!(roman_numerals(737), "DCCXXXVII");
+        assert_eq!(roman_numerals(937), "CMXXXVII");
+        assert_eq!(roman_numerals(835), "DCCCXXXV");
+        assert_eq!(roman_numerals(731), "DCCXXXI");
+        assert_eq!(roman_numerals(999), "CMXCIX");
     }
 }
