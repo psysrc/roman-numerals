@@ -1,3 +1,15 @@
+pub fn roman_numerals(num: u32) -> String {
+    if num == 0 {
+        return String::from("Nulla");
+    }
+
+    if num > 3999 {
+        panic!("Cannot convert roman numerals larger than 3999");
+    }
+
+    convert_to_numerals(num)
+}
+
 struct RomanNumeral {
     character: char,
     value: u32,
@@ -28,15 +40,7 @@ fn process_numeral(num: &mut u32, numeral: &RomanNumeral, prev_numeral: Option<&
     result
 }
 
-pub fn roman_numerals(mut num: u32) -> String {
-    if num == 0 {
-        return String::from("Nulla");
-    }
-
-    if num > 3999 {
-        panic!("Cannot convert roman numerals larger than 3999");
-    }
-
+fn convert_to_numerals(mut num: u32) -> String {
     let mut result = String::new();
 
     const NUMERALS: [RomanNumeral; 7] = [
