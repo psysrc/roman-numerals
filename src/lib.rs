@@ -24,11 +24,7 @@ pub fn roman_numerals(mut num: u32) -> String {
 
     let mut result = String::new();
 
-    if num >= 400 {
-        result.push_str("CD");
-        num -= 400;
-    }
-
+    result += &process_numeral(&mut num, ('D', 500), ('C', 100));
     result += &process_numeral(&mut num, ('C', 100), ('X', 10));
     result += &process_numeral(&mut num, ('L', 50), ('X', 10));
     result += &process_numeral(&mut num, ('X', 10), ('I', 1));
@@ -152,5 +148,14 @@ mod tests {
         assert_eq!(roman_numerals(450), "CDL");
         assert_eq!(roman_numerals(470), "CDLXX");
         assert_eq!(roman_numerals(499), "CDXCIX");
+    }
+
+    #[test]
+    fn test_500s() {
+        assert_eq!(roman_numerals(500), "D");
+        assert_eq!(roman_numerals(569), "DLXIX");
+        assert_eq!(roman_numerals(587), "DLXXXVII");
+        assert_eq!(roman_numerals(565), "DLXV");
+        assert_eq!(roman_numerals(520), "DXX");
     }
 }
