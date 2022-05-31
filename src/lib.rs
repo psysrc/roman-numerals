@@ -172,4 +172,15 @@ mod tests {
         assert_eq!(roman_numerals(731), "DCCXXXI");
         assert_eq!(roman_numerals(999), "CMXCIX");
     }
+
+    #[test]
+    fn test_1000_to_3999() {
+        assert_eq!(roman_numerals(1000), "M");
+        assert_eq!(roman_numerals(1557), "MDLVII");
+        assert_eq!(roman_numerals(1177), "MCLXXVII");
+        assert_eq!(roman_numerals(2249), "MMCCXLIX");
+        assert_eq!(roman_numerals(2664), "MMDCLXIV");
+        assert_eq!(roman_numerals(3377), "MMMCCCLXXVII");
+        assert_eq!(roman_numerals(3999), "MMMCMXCIX");
+    }
 }
