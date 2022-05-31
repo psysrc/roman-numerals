@@ -4,17 +4,17 @@ extern crate lazy_static;
 fn process_numeral(num: &mut u32, numeral: (char, u32), prev_numeral: (char, u32)) -> String {
     let mut result = String::new();
 
+    while *num >= numeral.1 {
+        result.push(numeral.0);
+        *num -= numeral.1;
+    }
+
     let numeral_val_diff = numeral.1 - prev_numeral.1;
 
-    while *num >= numeral_val_diff {
-        if *num >= numeral.1 {
-            result.push(numeral.0);
-            *num -= numeral.1;
-        } else {
-            result.push(prev_numeral.0);
-            result.push(numeral.0);
-            *num -= numeral_val_diff;
-        }
+    if *num >= numeral_val_diff {
+        result.push(prev_numeral.0);
+        result.push(numeral.0);
+        *num -= numeral_val_diff;
     }
 
     result
