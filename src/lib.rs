@@ -1,37 +1,39 @@
 #[macro_use]
 extern crate lazy_static;
 
+fn process_numeral(num: &mut u32, numeral: (char, u32), prev_numeral: (char, u32)) -> String {
+    let mut result = String::new();
+
+    let numeral_val_diff = numeral.1 - prev_numeral.1;
+
+    while *num >= numeral_val_diff {
+        if *num >= numeral.1 {
+            result.push(numeral.0);
+            *num -= numeral.1;
+        } else {
+            result.push(prev_numeral.0);
+            result.push(numeral.0);
+            *num -= numeral_val_diff;
+        }
+    }
+
+    result
+}
+
 pub fn roman_numerals(mut num: u32) -> String {
     if num == 0 {
         return String::from("Nulla");
     }
 
-    let mut result = String::from("");
+    let mut result = String::new();
 
     if num >= 400 {
         result.push_str("CD");
         num -= 400;
     }
 
-    while num >= 90 {
-        if num >= 100 {
-            result.push_str("C");
-            num -= 100;
-        } else {
-            result.push_str("XC");
-            num -= 90;
-        }
-    }
-
-    if num >= 40 {
-        if num >= 50 {
-            result.push_str("L");
-            num -= 50;
-        } else {
-            result.push_str("XL");
-            num -= 40;
-        }
-    }
+    result += &process_numeral(&mut num, ('C', 100), ('X', 10));
+    result += &process_numeral(&mut num, ('L', 50), ('X', 10));
 
     while num >= 10 {
         result.push('X');
