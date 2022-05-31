@@ -1,4 +1,4 @@
-fn process_numeral(num: &mut u32, numeral: (char, u32), prev_numeral: (char, u32)) -> String {
+fn process_numeral(num: &mut u32, numeral: (char, u32), prev_numeral: Option<(char, u32)>) -> String {
     let mut result = String::new();
 
     while *num >= numeral.1 {
@@ -6,12 +6,17 @@ fn process_numeral(num: &mut u32, numeral: (char, u32), prev_numeral: (char, u32
         *num -= numeral.1;
     }
 
-    let numeral_val_diff = numeral.1 - prev_numeral.1;
+    match prev_numeral {
+        Some(prev_numeral) => {
+            let numeral_val_diff = numeral.1 - prev_numeral.1;
 
-    if *num >= numeral_val_diff {
-        result.push(prev_numeral.0);
-        result.push(numeral.0);
-        *num -= numeral_val_diff;
+            if *num >= numeral_val_diff {
+                result.push(prev_numeral.0);
+                result.push(numeral.0);
+                *num -= numeral_val_diff;
+            }
+        },
+        None => {},
     }
 
     result
@@ -28,13 +33,13 @@ pub fn roman_numerals(mut num: u32) -> String {
 
     let mut result = String::new();
 
-    result += &process_numeral(&mut num, ('M', 1000), ('C', 100));
-    result += &process_numeral(&mut num, ('D', 500), ('C', 100));
-    result += &process_numeral(&mut num, ('C', 100), ('X', 10));
-    result += &process_numeral(&mut num, ('L', 50), ('X', 10));
-    result += &process_numeral(&mut num, ('X', 10), ('I', 1));
-    result += &process_numeral(&mut num, ('V', 5), ('I', 1));
-    result += &process_numeral(&mut num, ('I', 1), ('Z', 0));
+    result += &process_numeral(&mut num, ('M', 1000), Some(('C', 100)));
+    result += &process_numeral(&mut num, ('D', 500), Some(('C', 100)));
+    result += &process_numeral(&mut num, ('C', 100), Some(('X', 10)));
+    result += &process_numeral(&mut num, ('L', 50), Some(('X', 10)));
+    result += &process_numeral(&mut num, ('X', 10), Some(('I', 1)));
+    result += &process_numeral(&mut num, ('V', 5), Some(('I', 1)));
+    result += &process_numeral(&mut num, ('I', 1), None);
 
     result
 }
