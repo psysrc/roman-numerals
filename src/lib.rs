@@ -1,18 +1,24 @@
-fn process_numeral(num: &mut u32, numeral: (char, u32), prev_numeral: Option<(char, u32)>) -> String {
+struct RomanNumeral {
+    character: char,
+    value: u32,
+    can_subtract: bool,
+}
+
+fn process_numeral(num: &mut u32, numeral: &RomanNumeral, prev_numeral: Option<&RomanNumeral>) -> String {
     let mut result = String::new();
 
-    while *num >= numeral.1 {
-        result.push(numeral.0);
-        *num -= numeral.1;
+    while *num >= numeral.value {
+        result.push(numeral.character);
+        *num -= numeral.value;
     }
 
     match prev_numeral {
         Some(prev_numeral) => {
-            let numeral_val_diff = numeral.1 - prev_numeral.1;
+            let numeral_val_diff = numeral.value - prev_numeral.value;
 
             if *num >= numeral_val_diff {
-                result.push(prev_numeral.0);
-                result.push(numeral.0);
+                result.push(prev_numeral.character);
+                result.push(numeral.character);
                 *num -= numeral_val_diff;
             }
         },
@@ -33,13 +39,26 @@ pub fn roman_numerals(mut num: u32) -> String {
 
     let mut result = String::new();
 
-    result += &process_numeral(&mut num, ('M', 1000), Some(('C', 100)));
-    result += &process_numeral(&mut num, ('D', 500), Some(('C', 100)));
-    result += &process_numeral(&mut num, ('C', 100), Some(('X', 10)));
-    result += &process_numeral(&mut num, ('L', 50), Some(('X', 10)));
-    result += &process_numeral(&mut num, ('X', 10), Some(('I', 1)));
-    result += &process_numeral(&mut num, ('V', 5), Some(('I', 1)));
-    result += &process_numeral(&mut num, ('I', 1), None);
+    const NUMERALS: [RomanNumeral; 7] = [
+        RomanNumeral { character: 'M', value: 1000, can_subtract: false },
+        RomanNumeral { character: 'D', value: 500, can_subtract: false },
+        RomanNumeral { character: 'C', value: 100, can_subtract: true },
+        RomanNumeral { character: 'L', value: 50, can_subtract: false },
+        RomanNumeral { character: 'X', value: 10, can_subtract: true },
+        RomanNumeral { character: 'V', value: 5, can_subtract: false },
+        RomanNumeral { character: 'I', value: 1, can_subtract: true },
+    ];
+
+    for numeral_index in 0..(NUMERALS.len() - 1) {
+        let mut subtract_index = numeral_index + 1;
+        while !(&NUMERALS[subtract_index].can_subtract) {
+            subtract_index += 1;
+        }
+
+        result += &process_numeral(&mut num, &NUMERALS[numeral_index], Some(&NUMERALS[subtract_index]));
+    }
+
+    result += &process_numeral(&mut num, &NUMERALS[NUMERALS.len() - 1], None);
 
     result
 }
