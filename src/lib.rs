@@ -34,25 +34,9 @@ pub fn roman_numerals(mut num: u32) -> String {
 
     result += &process_numeral(&mut num, ('C', 100), ('X', 10));
     result += &process_numeral(&mut num, ('L', 50), ('X', 10));
-
-    while num >= 10 {
-        result.push('X');
-        num -= 10;
-    }
-
-    result.push_str(match num {
-        0 => "",
-        1 => "I",
-        2 => "II",
-        3 => "III",
-        4 => "IV",
-        5 => "V",
-        6 => "VI",
-        7 => "VII",
-        8 => "VIII",
-        9 => "IX",
-        _ => panic!(),
-    });
+    result += &process_numeral(&mut num, ('X', 10), ('I', 1));
+    result += &process_numeral(&mut num, ('V', 5), ('I', 1));
+    result += &process_numeral(&mut num, ('I', 1), ('Z', 0));
 
     result
 }
