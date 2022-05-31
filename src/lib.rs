@@ -22,6 +22,10 @@ pub fn roman_numerals(mut num: u32) -> String {
         return String::from("Nulla");
     }
 
+    if num > 3999 {
+        panic!("Cannot convert roman numerals larger than 3999");
+    }
+
     let mut result = String::new();
 
     result += &process_numeral(&mut num, ('M', 1000), ('C', 100));
@@ -38,6 +42,7 @@ pub fn roman_numerals(mut num: u32) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::panic;
 
     #[test]
     fn test_0() {
@@ -182,5 +187,12 @@ mod tests {
         assert_eq!(roman_numerals(2664), "MMDCLXIV");
         assert_eq!(roman_numerals(3377), "MMMCCCLXXVII");
         assert_eq!(roman_numerals(3999), "MMMCMXCIX");
+    }
+
+    #[test]
+    fn test_more_than_3999() {
+        assert!(panic::catch_unwind(|| { roman_numerals(4000); }).is_err());
+        assert!(panic::catch_unwind(|| { roman_numerals(20178961); }).is_err());
+        assert!(panic::catch_unwind(|| { roman_numerals(590485559); }).is_err());
     }
 }
