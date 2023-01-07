@@ -3,12 +3,14 @@ pub enum RomanNumeralError {
     ValueTooLarge,
 }
 
+pub const MAX_VALUE: u16 = 3999;
+
 pub fn roman_numerals(num: u16) -> Result<String, RomanNumeralError> {
     if num == 0 {
         return Ok(String::from("Nulla"));
     }
 
-    if num > 3999 {
+    if num > MAX_VALUE {
         return Err(RomanNumeralError::ValueTooLarge);
     }
 
@@ -219,8 +221,18 @@ mod tests {
     }
 
     #[test]
-    fn test_more_than_3999() {
-        assert_eq!(roman_numerals(4000), Err(RomanNumeralError::ValueTooLarge));
-        assert_eq!(roman_numerals(65535), Err(RomanNumeralError::ValueTooLarge));
+    fn test_max_value_is_3999() {
+        assert_eq!(MAX_VALUE, 3999);
+    }
+
+    #[test]
+    fn test_max_value_is_ok() {
+        assert!(roman_numerals(MAX_VALUE).is_ok());
+    }
+
+    #[test]
+    fn test_more_than_max_value_is_error() {
+        assert_eq!(roman_numerals(MAX_VALUE+1), Err(RomanNumeralError::ValueTooLarge));
+        assert_eq!(roman_numerals(u16::MAX), Err(RomanNumeralError::ValueTooLarge));
     }
 }
