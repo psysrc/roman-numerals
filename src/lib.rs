@@ -13,25 +13,25 @@ pub fn roman_numerals(num: u16) -> String {
 struct RomanNumeral {
     character: char,
     value: u16,
-    can_subtract: bool,
+    can_subtract_from_next: bool,
 }
+
+const NUMERALS: [RomanNumeral; 7] = [
+    RomanNumeral { character: 'M', value: 1000, can_subtract_from_next: false },
+    RomanNumeral { character: 'D', value: 500, can_subtract_from_next: false },
+    RomanNumeral { character: 'C', value: 100, can_subtract_from_next: true },
+    RomanNumeral { character: 'L', value: 50, can_subtract_from_next: false },
+    RomanNumeral { character: 'X', value: 10, can_subtract_from_next: true },
+    RomanNumeral { character: 'V', value: 5, can_subtract_from_next: false },
+    RomanNumeral { character: 'I', value: 1, can_subtract_from_next: true },
+];
 
 fn convert_to_numerals(mut num: u16) -> String {
     let mut result = String::new();
 
-    const NUMERALS: [RomanNumeral; 7] = [
-        RomanNumeral { character: 'M', value: 1000, can_subtract: false },
-        RomanNumeral { character: 'D', value: 500, can_subtract: false },
-        RomanNumeral { character: 'C', value: 100, can_subtract: true },
-        RomanNumeral { character: 'L', value: 50, can_subtract: false },
-        RomanNumeral { character: 'X', value: 10, can_subtract: true },
-        RomanNumeral { character: 'V', value: 5, can_subtract: false },
-        RomanNumeral { character: 'I', value: 1, can_subtract: true },
-    ];
-
     for numeral_index in 0..(NUMERALS.len() - 1) {
         let mut subtract_index = numeral_index + 1;
-        while !(&NUMERALS[subtract_index].can_subtract) {
+        while !(&NUMERALS[subtract_index].can_subtract_from_next) {
             subtract_index += 1;
         }
 
