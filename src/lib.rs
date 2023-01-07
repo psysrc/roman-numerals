@@ -51,17 +51,14 @@ fn process_numeral(num: &mut u16, numeral: &RomanNumeral, prev_numeral: Option<&
         *num -= numeral.value;
     }
 
-    match prev_numeral {
-        Some(prev_numeral) => {
-            let numeral_val_diff = numeral.value - prev_numeral.value;
+    if let Some(prev_numeral) = prev_numeral {
+        let numeral_val_diff = numeral.value - prev_numeral.value;
 
-            if *num >= numeral_val_diff {
-                result.push(prev_numeral.character);
-                result.push(numeral.character);
-                *num -= numeral_val_diff;
-            }
-        },
-        None => {},
+        if *num >= numeral_val_diff {
+            result.push(prev_numeral.character);
+            result.push(numeral.character);
+            *num -= numeral_val_diff;
+        }
     }
 
     result
