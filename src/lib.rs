@@ -1,13 +1,18 @@
-pub fn roman_numerals(num: u16) -> String {
+#[derive(PartialEq, Debug)]
+pub enum RomanNumeralError {
+    ValueTooLarge,
+}
+
+pub fn roman_numerals(num: u16) -> Result<String, RomanNumeralError> {
     if num == 0 {
-        return String::from("Nulla");
+        return Ok(String::from("Nulla"));
     }
 
     if num > 3999 {
-        panic!("Cannot convert roman numerals larger than 3999");
+        return Err(RomanNumeralError::ValueTooLarge);
     }
 
-    convert_to_numerals(num)
+    Ok(convert_to_numerals(num))
 }
 
 struct RomanNumeral {
@@ -67,156 +72,155 @@ fn process_numeral(num: &mut u16, numeral: &RomanNumeral, prev_numeral: Option<&
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::panic;
 
     #[test]
     fn test_0() {
-        assert_eq!(roman_numerals(0), "Nulla");
+        assert_eq!(roman_numerals(0), Ok("Nulla".to_string()));
     }
 
     #[test]
     fn test_1_to_10() {
-        assert_eq!(roman_numerals(1), "I");
-        assert_eq!(roman_numerals(2), "II");
-        assert_eq!(roman_numerals(3), "III");
-        assert_eq!(roman_numerals(4), "IV");
-        assert_eq!(roman_numerals(5), "V");
-        assert_eq!(roman_numerals(6), "VI");
-        assert_eq!(roman_numerals(7), "VII");
-        assert_eq!(roman_numerals(8), "VIII");
-        assert_eq!(roman_numerals(9), "IX");
-        assert_eq!(roman_numerals(10), "X");
+        assert_eq!(roman_numerals(1), Ok("I".to_string()));
+        assert_eq!(roman_numerals(2), Ok("II".to_string()));
+        assert_eq!(roman_numerals(3), Ok("III".to_string()));
+        assert_eq!(roman_numerals(4), Ok("IV".to_string()));
+        assert_eq!(roman_numerals(5), Ok("V".to_string()));
+        assert_eq!(roman_numerals(6), Ok("VI".to_string()));
+        assert_eq!(roman_numerals(7), Ok("VII".to_string()));
+        assert_eq!(roman_numerals(8), Ok("VIII".to_string()));
+        assert_eq!(roman_numerals(9), Ok("IX".to_string()));
+        assert_eq!(roman_numerals(10), Ok("X".to_string()));
     }
 
     #[test]
     fn test_11_to_20() {
-        assert_eq!(roman_numerals(11), "XI");
-        assert_eq!(roman_numerals(12), "XII");
-        assert_eq!(roman_numerals(13), "XIII");
-        assert_eq!(roman_numerals(14), "XIV");
-        assert_eq!(roman_numerals(15), "XV");
-        assert_eq!(roman_numerals(16), "XVI");
-        assert_eq!(roman_numerals(17), "XVII");
-        assert_eq!(roman_numerals(18), "XVIII");
-        assert_eq!(roman_numerals(19), "XIX");
-        assert_eq!(roman_numerals(20), "XX");
+        assert_eq!(roman_numerals(11), Ok("XI".to_string()));
+        assert_eq!(roman_numerals(12), Ok("XII".to_string()));
+        assert_eq!(roman_numerals(13), Ok("XIII".to_string()));
+        assert_eq!(roman_numerals(14), Ok("XIV".to_string()));
+        assert_eq!(roman_numerals(15), Ok("XV".to_string()));
+        assert_eq!(roman_numerals(16), Ok("XVI".to_string()));
+        assert_eq!(roman_numerals(17), Ok("XVII".to_string()));
+        assert_eq!(roman_numerals(18), Ok("XVIII".to_string()));
+        assert_eq!(roman_numerals(19), Ok("XIX".to_string()));
+        assert_eq!(roman_numerals(20), Ok("XX".to_string()));
     }
 
     #[test]
     fn test_40s() {
-        assert_eq!(roman_numerals(40), "XL");
-        assert_eq!(roman_numerals(41), "XLI");
-        assert_eq!(roman_numerals(45), "XLV");
-        assert_eq!(roman_numerals(49), "XLIX");
+        assert_eq!(roman_numerals(40), Ok("XL".to_string()));
+        assert_eq!(roman_numerals(41), Ok("XLI".to_string()));
+        assert_eq!(roman_numerals(45), Ok("XLV".to_string()));
+        assert_eq!(roman_numerals(49), Ok("XLIX".to_string()));
     }
 
     #[test]
     fn test_50s() {
-        assert_eq!(roman_numerals(50), "L");
-        assert_eq!(roman_numerals(51), "LI");
-        assert_eq!(roman_numerals(54), "LIV");
-        assert_eq!(roman_numerals(57), "LVII");
-        assert_eq!(roman_numerals(59), "LIX");
+        assert_eq!(roman_numerals(50), Ok("L".to_string()));
+        assert_eq!(roman_numerals(51), Ok("LI".to_string()));
+        assert_eq!(roman_numerals(54), Ok("LIV".to_string()));
+        assert_eq!(roman_numerals(57), Ok("LVII".to_string()));
+        assert_eq!(roman_numerals(59), Ok("LIX".to_string()));
     }
 
     #[test]
     fn test_60s_70s_80s() {
-        assert_eq!(roman_numerals(60), "LX");
-        assert_eq!(roman_numerals(65), "LXV");
-        assert_eq!(roman_numerals(70), "LXX");
-        assert_eq!(roman_numerals(75), "LXXV");
-        assert_eq!(roman_numerals(80), "LXXX");
-        assert_eq!(roman_numerals(85), "LXXXV");
+        assert_eq!(roman_numerals(60), Ok("LX".to_string()));
+        assert_eq!(roman_numerals(65), Ok("LXV".to_string()));
+        assert_eq!(roman_numerals(70), Ok("LXX".to_string()));
+        assert_eq!(roman_numerals(75), Ok("LXXV".to_string()));
+        assert_eq!(roman_numerals(80), Ok("LXXX".to_string()));
+        assert_eq!(roman_numerals(85), Ok("LXXXV".to_string()));
     }
 
     #[test]
     fn test_90s() {
-        assert_eq!(roman_numerals(90), "XC");
-        assert_eq!(roman_numerals(91), "XCI");
-        assert_eq!(roman_numerals(95), "XCV");
-        assert_eq!(roman_numerals(98), "XCVIII");
-        assert_eq!(roman_numerals(99), "XCIX");
+        assert_eq!(roman_numerals(90), Ok("XC".to_string()));
+        assert_eq!(roman_numerals(91), Ok("XCI".to_string()));
+        assert_eq!(roman_numerals(95), Ok("XCV".to_string()));
+        assert_eq!(roman_numerals(98), Ok("XCVIII".to_string()));
+        assert_eq!(roman_numerals(99), Ok("XCIX".to_string()));
     }
 
     #[test]
     fn test_100s() {
-        assert_eq!(roman_numerals(100), "C");
-        assert_eq!(roman_numerals(104), "CIV");
-        assert_eq!(roman_numerals(110), "CX");
-        assert_eq!(roman_numerals(120), "CXX");
-        assert_eq!(roman_numerals(130), "CXXX");
-        assert_eq!(roman_numerals(140), "CXL");
-        assert_eq!(roman_numerals(150), "CL");
-        assert_eq!(roman_numerals(170), "CLXX");
-        assert_eq!(roman_numerals(190), "CXC");
-        assert_eq!(roman_numerals(199), "CXCIX");
+        assert_eq!(roman_numerals(100), Ok("C".to_string()));
+        assert_eq!(roman_numerals(104), Ok("CIV".to_string()));
+        assert_eq!(roman_numerals(110), Ok("CX".to_string()));
+        assert_eq!(roman_numerals(120), Ok("CXX".to_string()));
+        assert_eq!(roman_numerals(130), Ok("CXXX".to_string()));
+        assert_eq!(roman_numerals(140), Ok("CXL".to_string()));
+        assert_eq!(roman_numerals(150), Ok("CL".to_string()));
+        assert_eq!(roman_numerals(170), Ok("CLXX".to_string()));
+        assert_eq!(roman_numerals(190), Ok("CXC".to_string()));
+        assert_eq!(roman_numerals(199), Ok("CXCIX".to_string()));
     }
 
     #[test]
     fn test_200s() {
-        assert_eq!(roman_numerals(200), "CC");
-        assert_eq!(roman_numerals(210), "CCX");
-        assert_eq!(roman_numerals(249), "CCXLIX");
-        assert_eq!(roman_numerals(250), "CCL");
-        assert_eq!(roman_numerals(270), "CCLXX");
-        assert_eq!(roman_numerals(290), "CCXC");
-        assert_eq!(roman_numerals(299), "CCXCIX");
+        assert_eq!(roman_numerals(200), Ok("CC".to_string()));
+        assert_eq!(roman_numerals(210), Ok("CCX".to_string()));
+        assert_eq!(roman_numerals(249), Ok("CCXLIX".to_string()));
+        assert_eq!(roman_numerals(250), Ok("CCL".to_string()));
+        assert_eq!(roman_numerals(270), Ok("CCLXX".to_string()));
+        assert_eq!(roman_numerals(290), Ok("CCXC".to_string()));
+        assert_eq!(roman_numerals(299), Ok("CCXCIX".to_string()));
     }
 
     #[test]
     fn test_300s() {
-        assert_eq!(roman_numerals(300), "CCC");
-        assert_eq!(roman_numerals(323), "CCCXXIII");
-        assert_eq!(roman_numerals(350), "CCCL");
-        assert_eq!(roman_numerals(370), "CCCLXX");
-        assert_eq!(roman_numerals(399), "CCCXCIX");
+        assert_eq!(roman_numerals(300), Ok("CCC".to_string()));
+        assert_eq!(roman_numerals(323), Ok("CCCXXIII".to_string()));
+        assert_eq!(roman_numerals(350), Ok("CCCL".to_string()));
+        assert_eq!(roman_numerals(370), Ok("CCCLXX".to_string()));
+        assert_eq!(roman_numerals(399), Ok("CCCXCIX".to_string()));
     }
 
     #[test]
     fn test_400s() {
-        assert_eq!(roman_numerals(400), "CD");
-        assert_eq!(roman_numerals(491), "CDXCI");
-        assert_eq!(roman_numerals(450), "CDL");
-        assert_eq!(roman_numerals(470), "CDLXX");
-        assert_eq!(roman_numerals(499), "CDXCIX");
+        assert_eq!(roman_numerals(400), Ok("CD".to_string()));
+        assert_eq!(roman_numerals(491), Ok("CDXCI".to_string()));
+        assert_eq!(roman_numerals(450), Ok("CDL".to_string()));
+        assert_eq!(roman_numerals(470), Ok("CDLXX".to_string()));
+        assert_eq!(roman_numerals(499), Ok("CDXCIX".to_string()));
     }
 
     #[test]
     fn test_500s() {
-        assert_eq!(roman_numerals(500), "D");
-        assert_eq!(roman_numerals(569), "DLXIX");
-        assert_eq!(roman_numerals(587), "DLXXXVII");
-        assert_eq!(roman_numerals(565), "DLXV");
-        assert_eq!(roman_numerals(520), "DXX");
+        assert_eq!(roman_numerals(500), Ok("D".to_string()));
+        assert_eq!(roman_numerals(569), Ok("DLXIX".to_string()));
+        assert_eq!(roman_numerals(587), Ok("DLXXXVII".to_string()));
+        assert_eq!(roman_numerals(565), Ok("DLXV".to_string()));
+        assert_eq!(roman_numerals(520), Ok("DXX".to_string()));
     }
 
     #[test]
     fn test_600s_700s_800s_900s() {
-        assert_eq!(roman_numerals(600), "DC");
-        assert_eq!(roman_numerals(651), "DCLI");
-        assert_eq!(roman_numerals(824), "DCCCXXIV");
-        assert_eq!(roman_numerals(958), "CMLVIII");
-        assert_eq!(roman_numerals(737), "DCCXXXVII");
-        assert_eq!(roman_numerals(937), "CMXXXVII");
-        assert_eq!(roman_numerals(835), "DCCCXXXV");
-        assert_eq!(roman_numerals(731), "DCCXXXI");
-        assert_eq!(roman_numerals(999), "CMXCIX");
+        assert_eq!(roman_numerals(600), Ok("DC".to_string()));
+        assert_eq!(roman_numerals(651), Ok("DCLI".to_string()));
+        assert_eq!(roman_numerals(824), Ok("DCCCXXIV".to_string()));
+        assert_eq!(roman_numerals(958), Ok("CMLVIII".to_string()));
+        assert_eq!(roman_numerals(737), Ok("DCCXXXVII".to_string()));
+        assert_eq!(roman_numerals(937), Ok("CMXXXVII".to_string()));
+        assert_eq!(roman_numerals(835), Ok("DCCCXXXV".to_string()));
+        assert_eq!(roman_numerals(731), Ok("DCCXXXI".to_string()));
+        assert_eq!(roman_numerals(999), Ok("CMXCIX".to_string()));
     }
 
     #[test]
     fn test_1000_to_3999() {
-        assert_eq!(roman_numerals(1000), "M");
-        assert_eq!(roman_numerals(1557), "MDLVII");
-        assert_eq!(roman_numerals(1177), "MCLXXVII");
-        assert_eq!(roman_numerals(2249), "MMCCXLIX");
-        assert_eq!(roman_numerals(2664), "MMDCLXIV");
-        assert_eq!(roman_numerals(3377), "MMMCCCLXXVII");
-        assert_eq!(roman_numerals(3999), "MMMCMXCIX");
+        assert_eq!(roman_numerals(1000), Ok("M".to_string()));
+        assert_eq!(roman_numerals(1557), Ok("MDLVII".to_string()));
+        assert_eq!(roman_numerals(1177), Ok("MCLXXVII".to_string()));
+        assert_eq!(roman_numerals(2249), Ok("MMCCXLIX".to_string()));
+        assert_eq!(roman_numerals(2664), Ok("MMDCLXIV".to_string()));
+        assert_eq!(roman_numerals(3377), Ok("MMMCCCLXXVII".to_string()));
+        assert_eq!(roman_numerals(3999), Ok("MMMCMXCIX".to_string()));
     }
 
     #[test]
     fn test_more_than_3999() {
-        assert!(panic::catch_unwind(|| { roman_numerals(4000); }).is_err());
-        assert!(panic::catch_unwind(|| { roman_numerals(65535); }).is_err());
+        assert_eq!(roman_numerals(4000), Err(RomanNumeralError::ValueTooLarge));
+        assert_eq!(roman_numerals(65535), Err(RomanNumeralError::ValueTooLarge));
     }
 }
