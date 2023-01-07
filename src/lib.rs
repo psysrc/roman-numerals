@@ -1,4 +1,4 @@
-pub fn roman_numerals(num: u32) -> String {
+pub fn roman_numerals(num: u16) -> String {
     if num == 0 {
         return String::from("Nulla");
     }
@@ -12,11 +12,11 @@ pub fn roman_numerals(num: u32) -> String {
 
 struct RomanNumeral {
     character: char,
-    value: u32,
+    value: u16,
     can_subtract: bool,
 }
 
-fn convert_to_numerals(mut num: u32) -> String {
+fn convert_to_numerals(mut num: u16) -> String {
     let mut result = String::new();
 
     const NUMERALS: [RomanNumeral; 7] = [
@@ -43,7 +43,7 @@ fn convert_to_numerals(mut num: u32) -> String {
     result
 }
 
-fn process_numeral(num: &mut u32, numeral: &RomanNumeral, prev_numeral: Option<&RomanNumeral>) -> String {
+fn process_numeral(num: &mut u16, numeral: &RomanNumeral, prev_numeral: Option<&RomanNumeral>) -> String {
     let mut result = String::new();
 
     while *num >= numeral.value {
@@ -220,7 +220,6 @@ mod tests {
     #[test]
     fn test_more_than_3999() {
         assert!(panic::catch_unwind(|| { roman_numerals(4000); }).is_err());
-        assert!(panic::catch_unwind(|| { roman_numerals(20178961); }).is_err());
-        assert!(panic::catch_unwind(|| { roman_numerals(590485559); }).is_err());
+        assert!(panic::catch_unwind(|| { roman_numerals(65535); }).is_err());
     }
 }
