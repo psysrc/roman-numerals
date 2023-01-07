@@ -16,30 +16,6 @@ struct RomanNumeral {
     can_subtract: bool,
 }
 
-fn process_numeral(num: &mut u32, numeral: &RomanNumeral, prev_numeral: Option<&RomanNumeral>) -> String {
-    let mut result = String::new();
-
-    while *num >= numeral.value {
-        result.push(numeral.character);
-        *num -= numeral.value;
-    }
-
-    match prev_numeral {
-        Some(prev_numeral) => {
-            let numeral_val_diff = numeral.value - prev_numeral.value;
-
-            if *num >= numeral_val_diff {
-                result.push(prev_numeral.character);
-                result.push(numeral.character);
-                *num -= numeral_val_diff;
-            }
-        },
-        None => {},
-    }
-
-    result
-}
-
 fn convert_to_numerals(mut num: u32) -> String {
     let mut result = String::new();
 
@@ -63,6 +39,30 @@ fn convert_to_numerals(mut num: u32) -> String {
     }
 
     result += &process_numeral(&mut num, &NUMERALS[NUMERALS.len() - 1], None);
+
+    result
+}
+
+fn process_numeral(num: &mut u32, numeral: &RomanNumeral, prev_numeral: Option<&RomanNumeral>) -> String {
+    let mut result = String::new();
+
+    while *num >= numeral.value {
+        result.push(numeral.character);
+        *num -= numeral.value;
+    }
+
+    match prev_numeral {
+        Some(prev_numeral) => {
+            let numeral_val_diff = numeral.value - prev_numeral.value;
+
+            if *num >= numeral_val_diff {
+                result.push(prev_numeral.character);
+                result.push(numeral.character);
+                *num -= numeral_val_diff;
+            }
+        },
+        None => {},
+    }
 
     result
 }
